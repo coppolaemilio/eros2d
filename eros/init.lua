@@ -11,6 +11,7 @@ VERSION = "0.1.1"
 
 game = {}
 objects = {}
+room = {}
 
 -- Game functions
 function game.start() end
