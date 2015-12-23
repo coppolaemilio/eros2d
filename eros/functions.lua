@@ -216,11 +216,13 @@ function create_object()
   function t:create() end
   function t:step() end
   function t:draw()
-      self.image_index = self.image_index + self.image_speed
+    self.image_index = self.image_index + self.image_speed
+    if self.sprite_index ~= 0 then
       if self.image_index > self.sprite_index.image_number then
-          self.image_index = 0
+        self.image_index = 0
       end
       draw_sprite(self.sprite_index,self.image_index,self.x,self.y)
+    end
   end
   return t
 end
