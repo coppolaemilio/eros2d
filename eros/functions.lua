@@ -130,6 +130,18 @@ function draw_sprite(sprite_index, image_index, x, y)
     love.graphics.draw(sprite_index.love_sprite,quad,x,y,0,1,1,sprite_index.xoffset,sprite_index.yoffset)
 end
 
+function draw_rectangle(x, y, width, height, fill)
+  local f = "fill"
+  if fill == 1 then
+    f = "none"
+  end
+  love.graphics.rectangle(f, x, y, width, height )
+end
+
+function draw_reset()
+  love.graphics.setColor(255,255,255,255)
+end
+
 function create_background(path)
   back = love.graphics.newImage(path)
   back:setFilter('nearest','nearest')
@@ -214,6 +226,15 @@ function create_object()
 end
 
 instance_number = 0
+function room_instance_create(x, y, object)
+    local i = class:new()
+    i:addparent(object)
+    i.x = x
+    i.y = y
+    instance_number = instance_number + 1
+    i.id = instance_number
+    return i
+end
 function instance_create(x, y, object)
     local i = class:new()
     i:addparent(object)
