@@ -244,6 +244,7 @@ function instance_create(x, y, object)
     i.y = y
     instance_number = instance_number + 1
     i.id = instance_number
+    room.instances[i.id] = i
     return i
 end
 
