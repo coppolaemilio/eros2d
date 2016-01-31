@@ -132,7 +132,7 @@ end
 
 function draw_rectangle(x, y, width, height, fill)
   local f = "fill"
-  if fill == 1 then
+  if fill ~= 1 then
     f = "none"
   end
   love.graphics.rectangle(f, x, y, width, height )
@@ -281,6 +281,11 @@ end
 function random(value)
   return math.random(value)
 end
+
+function window_set_size( w, h )
+  love.window.setMode( w, h)
+end
+
 ----------------------------------------
 -- ENGINE RELATED
 -- This functions are not ment to be used by the end user.

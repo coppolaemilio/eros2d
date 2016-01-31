@@ -29,15 +29,19 @@ print("[+] Eros v" .. VERSION)
 -- Instead of using love.x() you can use the new game.start, game.step game.draw.
 function love.load()
     game.start()
-    -- Create event of objects
-    for i = 1, #objects do
-      objects[i].create()
-    end
 end
 
 function love.update( dt )
     mouse_x, mouse_y = love.mouse.getPosition( )
     game.step()
+
+    -- Instance step events
+    if room.instances then
+      for j = 1, #room.instances do
+        room.instances[j]:step()
+      end
+    end
+
     if keyboard_check(vk_escape) then
         game_end()
     end
@@ -49,6 +53,7 @@ end
 function love.draw()
   camera:set()
   room_draw()
+
   -- Drawing all instances created in the room
   if room.instances then
     for j = 1, #room.instances do
