@@ -3,11 +3,13 @@ io.stdout:setvbuf("no")
 
 -- Including all the eros packages
 require 'eros.functions'
+require 'eros.assets'
 require "eros.class"
 require 'eros.keys'
 require 'eros.camera'
 
-VERSION = "0.1.1"
+VERSION = "0.1.2"
+DEV = true
 
 game = {}
 objects = {}
@@ -21,8 +23,13 @@ function game.draw() end
 -- Constants
 cr_none = "cr_none"
 
+function printd(string)
+  if DEV then
+    print(string)
+  end
+end
 
-print("[+] Eros v" .. VERSION)
+printd("[+] Eros v" .. VERSION)
 
 
 -- Wrapping the love default functions with the needed ones for eros
@@ -37,8 +44,12 @@ function love.update( dt )
 
     -- Instance step events
     if room.instances then
-      for j = 1, #room.instances do
-        room.instances[j]:step()
+      if unexpected_condition then
+        print("error!")
+      else
+        for j = 1, #room.instances do
+          room.instances[j]:step()
+        end
       end
     end
 

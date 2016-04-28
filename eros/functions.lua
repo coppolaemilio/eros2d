@@ -7,39 +7,39 @@ local _transition_target = 0
 last_key = ""
 
 function room_transition(room_name)
-    _transition_target = room_name
-    _transition = 1
+  _transition_target = room_name
+  _transition = 1
 end
 
 function perform_transition()
-    if _transition ~= 0 then
-        local transition_speed = 0.025
-        if _transition == 1 then
-            _transition_alpha = _transition_alpha + transition_speed
-        end
-        if _transition_alpha > 1 and _transition == 1 then
-            _transition = 2
-        end
-        if _transition == 2 then
-            _transition_alpha = 1
-            _transition = 3
-            room_index = _transition_target
-        end
-        if _transition == 3 then
-            _transition_alpha = _transition_alpha - transition_speed
-            if _transition_alpha < 0 then
-                _transition = 0
-            end
-        end
+  if _transition ~= 0 then
+    local transition_speed = 0.025
+    if _transition == 1 then
+      _transition_alpha = _transition_alpha + transition_speed
     end
+    if _transition_alpha > 1 and _transition == 1 then
+      _transition = 2
+    end
+    if _transition == 2 then
+      _transition_alpha = 1
+      _transition = 3
+      room_index = _transition_target
+    end
+    if _transition == 3 then
+      _transition_alpha = _transition_alpha - transition_speed
+      if _transition_alpha < 0 then
+        _transition = 0
+      end
+    end
+  end
 end
 
 function draw_transition()
-    if _transition ~= 0 then
-        draw_set_color(black)
-        draw_set_alpha(_transition_alpha)
-        love.graphics.rectangle("fill", 0,0,love.graphics.getWidth(),love.graphics.getHeight() )
-    end
+  if _transition ~= 0 then
+    draw_set_color(black)
+    draw_set_alpha(_transition_alpha)
+    love.graphics.rectangle("fill", 0,0,love.graphics.getWidth(),love.graphics.getHeight() )
+  end
 end
 --------
 function create_font (fontname, size)
@@ -89,45 +89,45 @@ function create_room(room_name)
 end
 
 function game_end()
-    love.event.push('quit')
+  love.event.push('quit')
 end
 
 function keyboard_check(key)
-    return love.keyboard.isDown(key)
+  return love.keyboard.isDown(key)
 end
 
 function keyboard_check_pressed(key)
-    if love.keyboard.isDown(key) then
-        local out = false
-        if last_key ~= key then
-            out = love.keyboard.isDown(key)
-        end
-        last_key = key
-        return out
+  if love.keyboard.isDown(key) then
+    local out = false
+    if last_key ~= key then
+      out = love.keyboard.isDown(key)
     end
+    last_key = key
+    return out
+  end
 end
 
 function love.keyreleased(key)
-    if key == last_key then
-        last_key = ""
-    end
+  if key == last_key then
+    last_key = ""
+  end
 end
 
 function draw_sprite_old(sprite_index, image_index, x, y)
-    love.graphics.draw(sprite_index, x, y)
+  love.graphics.draw(sprite_index, x, y)
 end
 
 
 function draw_sprite(sprite_index, image_index, x, y)
-    -- Sprites are tables with different properties
-    local _image_index = math.floor(image_index)
+  -- Sprites are tables with different properties
+  local _image_index = math.floor(image_index)
 
-    local quad = love.graphics.newQuad(
-        sprite_index.image_width * (_image_index), 0,
-        sprite_index.image_width, sprite_index.height,
-        sprite_index.width, sprite_index.height
-    )
-    love.graphics.draw(sprite_index.love_sprite,quad,x,y,0,1,1,sprite_index.xoffset,sprite_index.yoffset)
+  local quad = love.graphics.newQuad(
+    sprite_index.image_width * (_image_index), 0,
+    sprite_index.image_width, sprite_index.height,
+    sprite_index.width, sprite_index.height
+  )
+  love.graphics.draw(sprite_index.love_sprite,quad,x,y,0,1,1,sprite_index.xoffset,sprite_index.yoffset)
 end
 
 function draw_rectangle(x, y, width, height, fill)
@@ -153,23 +153,23 @@ function draw_background(b_index, x, y)
 end
 
 function draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, image_angle, color, image_alpha)
-    r, g, b, a = love.graphics.getColor()
-    love.graphics.setColor(color,alpha)
-    local _image_index = math.floor(image_index)
-    local quad = love.graphics.newQuad(
-        sprite_index.image_width * _image_index, 0,
-        sprite_index.image_width, sprite_index.height,
-        sprite_index.width, sprite_index.height
-    )
-    love.graphics.draw(
-        sprite_index.love_sprite,
-        quad,
-        x, y,
-        math.rad(image_angle),
-        image_xscale, image_yscale,
-        sprite_index.xoffset, sprite_index.yoffset
-    )
-    love.graphics.setColor(r,g,b,a)
+  r, g, b, a = love.graphics.getColor()
+  love.graphics.setColor(color,alpha)
+  local _image_index = math.floor(image_index)
+  local quad = love.graphics.newQuad(
+      sprite_index.image_width * _image_index, 0,
+      sprite_index.image_width, sprite_index.height,
+      sprite_index.width, sprite_index.height
+  )
+  love.graphics.draw(
+      sprite_index.love_sprite,
+      quad,
+      x, y,
+      math.rad(image_angle),
+      image_xscale, image_yscale,
+      sprite_index.xoffset, sprite_index.yoffset
+  )
+  love.graphics.setColor(r,g,b,a)
 end
 
 function draw_tile(sprite_index, image_index, row_index, x, y, size)
@@ -227,47 +227,6 @@ function create_object()
   return t
 end
 
-instance_number = 0
-function room_instance_create(x, y, object)
-    local i = class:new()
-    i:addparent(object)
-    i.x = x
-    i.y = y
-    instance_number = instance_number + 1
-    i.id = instance_number
-    return i
-end
-function instance_create(x, y, object)
-    local i = class:new()
-    i:addparent(object)
-    i.x = x
-    i.y = y
-    instance_number = instance_number + 1
-    i.id = instance_number
-    room.instances[i.id] = i
-    return i
-end
-
-function window_set_fullscreen(bool)
-    love.window.setFullscreen(bool, "normal")
-end
-
-function window_set_cursor(cursor)
-    --This function needs more love.
-    if cursor == "cr_none" then
-        love.mouse.setVisible(false)
-    elseif cursor == nil then
-        love.mouse.setVisible(true)
-    else
-        love.mouse.setCursor(cursor)
-    end
-end
-
-function window_set_size(width, height)
-  return love.window.setMode( width, height)
-end
-
-
 function room_draw()
   if room.background_color then
     r, g, b, a = love.graphics.getColor()
@@ -278,12 +237,63 @@ function room_draw()
   end
 end
 
-function random(value)
-  return math.random(value)
+instance_number = 0
+function room_instance_create(x, y, object)
+  local i = class:new()
+  i:addparent(object)
+  i.x = x
+  i.y = y
+  instance_number = instance_number + 1
+  i.id = instance_number
+  return i
+end
+function instance_create(x, y, object)
+  local i = class:new()
+  i:addparent(object)
+  i.x = x
+  i.y = y
+  instance_number = instance_number + 1
+  i.id = instance_number
+  room.instances[i.id] = i
+  return i
 end
 
-function window_set_size( w, h )
-  love.window.setMode( w, h)
+function room_create(r)
+  current = r
+  if r.instances then
+    for j = 1, #r.instances do
+      r.instances[j] = room_instance_create(r.instances[j].x, r.instances[j].y, r.instances[j].i)
+    end
+  end
+  return current
+end
+
+function room_goto(room_name)
+  room = room_create(room_name)
+end
+
+function window_set_fullscreen(bool)
+  love.window.setFullscreen(bool, "normal")
+end
+
+function window_set_cursor(cursor)
+  --This function needs more love.
+  if cursor == "cr_none" then
+    love.mouse.setVisible(false)
+  elseif cursor == nil then
+    love.mouse.setVisible(true)
+  else
+    love.mouse.setCursor(cursor)
+  end
+end
+
+function window_set_size(width, height)
+  return love.window.setMode( width, height)
+end
+
+
+function random(value)
+  return math.random(value)
 end
 
 ----------------------------------------
