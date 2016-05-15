@@ -3,12 +3,12 @@ room_2 = {
   background_image = background_test,
   instances = {
     {
-      i = obj_player,
+      i = obj_test,
       x = 220,
       y = 220
     },
     {
-      i = obj_player,
+      i = obj_test,
       x = 220,
       y = 202
     }

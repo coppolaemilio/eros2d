@@ -254,6 +254,7 @@ function instance_create(x, y, object)
   i.y = y
   instance_number = instance_number + 1
   i.id = instance_number
+  i:create() -- object create event
   room.instances[i.id] = i
   return i
 end
@@ -263,6 +264,7 @@ function room_create(r)
   if r.instances then
     for j = 1, #r.instances do
       r.instances[j] = room_instance_create(r.instances[j].x, r.instances[j].y, r.instances[j].i)
+      r.instances[j]:create() -- object create event
     end
   end
   return current
