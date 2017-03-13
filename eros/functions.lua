@@ -272,6 +272,7 @@ end
 
 function room_goto(room_name)
   room = room_create(room_name)
+  window_set_size(room.size.width,room.size.height)
 end
 
 function window_set_fullscreen(bool)
